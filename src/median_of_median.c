@@ -56,17 +56,21 @@ int quick_Sep(int A[], int n, int pivot){
   return h;
 }
 
-
+//この関数は中央値をオーダーNで求めた後、quick_selectと同じ手順でk番目の数がどこにあるか調べる
 int meOfme(int A[],int n,int k){
+    //長さが５以下の時はどこをpivotとしても定数時間で求められるため、quick_selectに計算してもらう
     if(n<=5) return quick_select(A,n,k);
+    //長さが５を超えた時は５の長さの問題に分割した後、quick_selectに計算してもらう
     else {
         int i,r,z,pivot;
         for(i=0;5*i+4<n;i++){
             z=meOfme(A+5*i,5,2);  A[5*i+2]=A[i];  A[i]=z;
         }
+        //あまりを処理する。放置でも良いと思ったが、プリントは新しく考える配列を５で割った切り上げで考えているため、それに準拠した
         if(n-5*i>=1){
             z=meOfme(A+5*i,n-5*i,(n-5*i)/2);  A[5*i+(n-5*i)/2]=A[i];  A[i]=z;  i++;
         } 
+        //再帰呼び出しをして中央値の中央値アルゴリズムに沿った値を手に入れ、それをpivotとし、以下quick_selectと同じ手順でk番目の数がどこにあるか調べる
         pivot=meOfme(A,i,i/2);
         r=quick_Sep(A,n,pivot)-1;
         if(r==k) return pivot;
@@ -84,7 +88,7 @@ int main(){
     A[i] = (long long int) A[i-1] * A[1] % N;
   }
   for(i=0;i<N;i++){
-    if(meOfme(A, N, i) != i) printf("ERROR %d %d\n", i,meOfme(A, N, i));
-//    printf("%d th element is %d\n", i, meOfme(A, N, i));
+    if(meOfme(A, N, i) != i) printf("ERROR %d %d\n", i, meOfme(A, N, i));
+//    printf("%d th element is %d\n", i, quick_select(A, N, i));
   }
 }
