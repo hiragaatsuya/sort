@@ -18,7 +18,7 @@ void quick_sort(int A[], int n){
       z = A[i];  A[i] = A[j];  A[j] = z;
       j++; h++;
     }
-    if(A[i]==pivot){
+    else if(A[i]==pivot){
         z = A[h];
         A[h] = A[i];
         A[i] = z;
